@@ -1,0 +1,51 @@
+# Testing the site on GitHub
+
+The full site, including its database, runs in **GitHub Codespaces**: a
+private cloud computer started from your repository and opened in the
+browser. Every push is also checked automatically by **GitHub Actions**
+(lint, type check, build). Moving to Hostinger comes later and uses the same
+setup (Node.js + MariaDB/MySQL).
+
+## One-time setup
+
+1. **Create the repository:** go to https://github.com/new
+   - Name: `global-conflict-watch`
+   - Visibility: **Private**
+   - Don't add a README, .gitignore or licence (the project has them).
+2. Send me the repository URL. I'll connect this folder and push. The first
+   push opens a GitHub sign-in window. Sign in there yourself.
+3. **Secrets (from Phase 2 on):** at
+   *GitHub > Settings > Codespaces > Secrets*, add `AI_API_KEY`,
+   `AUTH_SECRET` and similar, and give them access to this repository.
+   They arrive in the Codespace as environment variables. Never put them
+   in files.
+
+## Running a test
+
+1. On the repository page, click **Code > Codespaces > Create codespace on
+   main**. The first start takes a few minutes, because it installs
+   packages and starts the database.
+2. In the Codespace terminal, run one of these:
+   - `npm run dev` to try changes as you make them
+   - `npm run preview` to test the real production build
+     (the same as Hostinger will run)
+3. A **GCW site** tab opens on port 3000. Its address looks like
+   `https://<name>-3000.app.github.dev`, and it's **private to your
+   GitHub account** unless you change the port's visibility in the
+   **Ports** panel.
+4. Check `/api/health`. It should show `"status":"ok"`.
+
+## Costs and limits
+
+- Personal GitHub accounts get a free monthly Codespaces allowance (enough
+  for roughly 60 hours a month on the smallest machine). Usage shows at
+  *GitHub > Settings > Billing*.
+- **Stop the Codespace when you're done** (*Code > Codespaces > ⋯ > Stop*).
+  An idle Codespace stops by itself after 30 minutes.
+- Unused Codespaces are deleted after 30 days, along with their test
+  database. The code in the repository is never affected.
+
+## Automatic checks
+
+Each push to `main` runs the **CI** workflow (*Actions* tab). A red ✗ means
+the code wouldn't build, so it must be fixed before anything is deployed.

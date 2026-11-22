@@ -1,0 +1,23 @@
+{
+  "name": "Global Conflict Watch",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  "shutdownAction": "stopCompose",
+
+  "forwardPorts": [3000],
+  "portsAttributes": {
+    "3000": { "label": "GCW site", "onAutoForward": "openBrowser" }
+  },
+
+  "postCreateCommand": "npm ci",
+
+  "customizations": {
+    "vscode": {
+      "extensions": ["dbaeumer.vscode-eslint", "bradlc.vscode-tailwindcss"]
+    },
+    "codespaces": {
+      "openFiles": ["docs/TESTING-ON-GITHUB.md"]
+    }
+  }
+}
