@@ -39,6 +39,25 @@ setup (Node.js + MariaDB/MySQL).
    **Ports** panel.
 5. Check `/api/health`. It should show `"status":"ok"`.
 
+## After the Codespace setup changes
+
+When files in `.devcontainer/` change, an existing Codespace keeps the old
+setup until it's rebuilt:
+
+1. In the Codespace terminal, run `git pull`.
+2. Press **Ctrl+Shift+P**, then choose **Codespaces: Rebuild Container**.
+   This takes a few minutes. Your code is kept, but the test database
+   starts empty.
+
+## If the site gives HTTP 502
+
+- Make sure a terminal is still running `npm run preview` and shows
+  `✓ Ready`. If the Codespace slept, start it again.
+- In a second terminal, run `curl -s localhost:3000/api/health`.
+  If that prints `"status":"ok"` but the browser still shows 502, the
+  forwarding is the problem. In the **Ports** tab, right-click port 3000 >
+  **Stop Forwarding Port**, then **Add Port** > `3000`.
+
 ## Costs and limits
 
 - Personal GitHub accounts get a free monthly Codespaces allowance (enough

@@ -1,16 +1,21 @@
 # Test environment for GitHub Codespaces: the app plus a MariaDB database,
 # matching the Node.js + MySQL/MariaDB setup planned for Hostinger.
 # The database password below only exists inside this throwaway container.
+#
+# The app has its own network (no network_mode: service:db). Sharing the
+# database's network broke Codespaces port forwarding: the site answered
+# inside the Codespace but the forwarded URL gave HTTP 502.
 services:
   app:
     image: mcr.microsoft.com/devcontainers/typescript-node:1-22-bookworm
     volumes:
       - ../..:/workspaces:cached
     command: sleep infinity
-    # Share the database container's network so the app reaches it at 127.0.0.1.
-    network_mode: service:db
+    depends_on:
+      - db
     environment:
-      DATABASE_URL: mysql://gcw:gcw_dev_only@127.0.0.1:3306/gcw
+      # "db" is the database service's name on the shared compose network.
+      DATABASE_URL: mysql://gcw:gcw_dev_only@db:3306/gcw
       NEXT_TELEMETRY_DISABLED: "1"
 
   db:
