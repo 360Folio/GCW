@@ -3,8 +3,8 @@
 The site runs in **GitHub Codespaces**: a private cloud computer started
 from your repository and opened in the browser. Every push is also checked
 automatically by **GitHub Actions** (lint, type check, build). Moving to
-Hostinger comes later and uses the same Node.js setup. The database is
-added to the Codespace in Phase 1.
+Hostinger comes later and uses the same Node.js + MariaDB setup. MariaDB
+runs inside the Codespace and is set up automatically each time it starts.
 
 ## One-time setup
 
@@ -32,12 +32,15 @@ added to the Codespace in Phase 1.
 3. Wait until the terminal shows **`✓ Ready`**. `npm run preview` builds
    first, which takes about a minute. Opening the site before that gives
    an **HTTP ERROR 502**; just reload once it's ready.
-4. Open the **GCW site** link from the pop-up or the **Ports** panel
+4. The first time, create your editor account in a second terminal:
+   `npm run admin:create -- --email you@example.com --name "Your Name"`
+   (you'll be asked for a password, 12+ characters).
+5. Open the **GCW site** link from the pop-up or the **Ports** panel
    (port 3000). Its address looks like
    `https://<name>-3000.app.github.dev`, and it's **private to your
    GitHub account** unless you change the port's visibility in the
    **Ports** panel.
-5. Check `/api/health`. It should show `"status":"ok"`.
+6. Check `/api/health`, then sign in at `/admin/login`. It should show `"status":"ok"`.
 
 ## After the Codespace setup changes
 

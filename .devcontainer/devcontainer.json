@@ -1,8 +1,8 @@
 {
   "name": "Global Conflict Watch",
   // Single standard container. The two-container setup (app + MariaDB)
-  // gave HTTP 502 on the forwarded port. The database is added back in
-  // Phase 1 inside this same container.
+  // gave HTTP 502 on the forwarded port, so MariaDB runs inside this
+  // container instead (.devcontainer/setup-db.sh).
   "image": "mcr.microsoft.com/devcontainers/typescript-node:1-22-bookworm",
 
   "containerEnv": {
@@ -15,6 +15,8 @@
   },
 
   "postCreateCommand": "npm ci",
+  // Every start: make sure MariaDB is running, then apply migrations.
+  "postStartCommand": "bash .devcontainer/setup-db.sh && npm run db:migrate",
 
   "customizations": {
     "vscode": {

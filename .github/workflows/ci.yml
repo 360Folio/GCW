@@ -1,4 +1,5 @@
-# Checks every push and pull request: lint, type-check and production build.
+# Checks every push and pull request: lint, type check, production build,
+# database migrations, and an end-to-end test of routing and admin login.
 name: CI
 
 on:
@@ -16,9 +17,26 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
+
+    services:
+      mariadb:
+        image: mariadb:11.4
+        env:
+          MARIADB_DATABASE: gcw
+          MARIADB_USER: gcw
+          MARIADB_PASSWORD: gcw_ci_only
+          MARIADB_ROOT_PASSWORD: gcw_ci_only_root
+        ports: ["3306:3306"]
+        options: >-
+          --health-cmd="healthcheck.sh --connect --innodb_initialized"
+          --health-interval=5s --health-timeout=5s --health-retries=20
+
     env:
       NEXT_TELEMETRY_DISABLED: "1"
+      DATABASE_URL: mysql://gcw:gcw_ci_only@127.0.0.1:3306/gcw
+      SITE_URL: http://localhost:3000
+
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -27,4 +45,16 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run lint
+      - run: npm run db:migrate
       - run: npm run build
+
+      - name: End-to-end check (routing + admin login)
+        run: |
+          export AUTH_SECRET="$(openssl rand -base64 32)"
+          export GCW_ADMIN_PASSWORD="$(openssl rand -base64 18)"
+          export GCW_TEST_ADMIN_EMAIL=ci-editor@example.test
+          export GCW_TEST_ADMIN_PASSWORD="$GCW_ADMIN_PASSWORD"
+          npm run admin:create -- --email "$GCW_TEST_ADMIN_EMAIL" --name "CI Editor"
+          npx next start -p 3000 > server.log 2>&1 &
+          for i in $(seq 1 60); do curl -sf http://localhost:3000/api/health >/dev/null && break; sleep 1; done
+          node scripts/e2e-auth-check.mjs || { cat server.log; exit 1; }

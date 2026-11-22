@@ -1,4 +1,7 @@
 import type { NextConfig } from "next";
+import createNextIntlPlugin from "next-intl/plugin";
+
+const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
 // Security headers sent on every response. A full Content-Security-Policy is
 // added in Phase 5, once the ad and analytics scripts are known.
@@ -16,6 +19,9 @@ const nextConfig: NextConfig = {
   cacheComponents: true,
   partialPrefetching: true,
   poweredByHeader: false,
+  // 404 page for addresses outside /en, /ur and /admin (there are several
+  // root layouts, so no single layout can provide it).
+  experimental: { globalNotFound: true },
   // Lets the dev server be opened through a GitHub Codespaces forwarded URL.
   allowedDevOrigins: ["*.app.github.dev"],
   turbopack: {
@@ -48,4 +54,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);
