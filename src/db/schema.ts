@@ -278,15 +278,16 @@ export const claims = mysqlTable(
 // ---------------------------------------------------------------------------
 // Live map
 
+export const MAP_EVENT_KIND = ["clash", "strike", "protest", "diplomacy", "humanitarian", "other"] as const;
+export type MapEventKind = (typeof MAP_EVENT_KIND)[number];
+
 export const mapEvents = mysqlTable(
   "map_events",
   {
     id: id(),
     conflictId: fk().references(() => conflicts.id, { onDelete: "set null" }),
     storyId: fk().references(() => stories.id, { onDelete: "set null" }),
-    kind: mysqlEnum(["clash", "strike", "protest", "diplomacy", "humanitarian", "other"])
-      .notNull()
-      .default("other"),
+    kind: mysqlEnum(MAP_EVENT_KIND).notNull().default("other"),
     severity: int().notNull().default(1), // 1 (low) to 5 (high)
     lat: double().notNull(),
     lng: double().notNull(),

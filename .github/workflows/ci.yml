@@ -48,8 +48,10 @@ jobs:
       - run: npm run db:migrate
       - run: npm run build
 
-      - name: End-to-end check (routing + admin login)
+      - name: End-to-end check (routing, public pages, admin login)
         run: |
+          npm run db:seed-sample
+          export GCW_TEST_SAMPLE_CONTENT=1
           export AUTH_SECRET="$(openssl rand -base64 32)"
           export GCW_ADMIN_PASSWORD="$(openssl rand -base64 18)"
           export GCW_TEST_ADMIN_EMAIL=ci-editor@example.test

@@ -69,8 +69,8 @@ Each phase ends with something working that you can see.
 **Phase 1: Foundations**
 - Database schema: stories, sources, claims, translations, conflicts, map events, subscribers, audit log.
 - Admin login with two-factor.
-- Design direction: 2–3 visual concepts for you to choose from **before** any pages are built (deal-breaker 1).
-- Public pages in English and Urdu: home, story, category, about, search.
+- Design direction: 2–3 visual concepts for you to choose from **before** any pages are built (deal-breaker 1). **Chosen: Broadsheet**, with a zoomable globe map (MapLibre + OpenFreeMap, as in 360Atlas) on the front page.
+- Public pages in English and Urdu: home (with the map), story, conflict, section (category), about, search.
 
 **Phase 2: Newsroom pipeline**
 - Source intake and grouping, AI drafts, the fact-check engine and the review inbox.

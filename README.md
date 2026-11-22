@@ -12,6 +12,7 @@ copy .env.example .env.local      # fill in DATABASE_URL and AUTH_SECRET
 .\scripts\setup-local-db.ps1      # creates the local MariaDB database and user
 npm run db:migrate                # creates the tables
 npm run admin:create -- --email you@example.com --name "Your Name"
+npm run db:seed-sample            # optional: sample stories, conflicts, map events
 npm run dev                       # http://localhost:3000  (admin: /admin)
 ```
 
@@ -20,7 +21,11 @@ because another MariaDB (360Atlas) already uses 3306.
 
 ## Structure
 
-- `src/app/[locale]/` - public site, `/en/...` and `/ur/...` (Urdu right-to-left)
+- `src/app/[locale]/` - public site, `/en/...` and `/ur/...` (Urdu right-to-left):
+  front page with the globe map, `stories/`, `conflicts/`, `topics/`, `search`, `about`
+- `src/lib/public-data.ts` - every database read for the public site
+- `src/components/world-map.tsx` - the globe (MapLibre + OpenFreeMap, no key needed)
+- `src/app/globals.css` - the Broadsheet design tokens and type
 - `src/app/admin/` - newsroom: login, two-factor setup, dashboard
 - `src/db/schema.ts` - database tables; `npm run db:generate` after changes
 - `src/lib/auth.ts` - login (Better Auth): single editor, two-factor required
@@ -32,6 +37,7 @@ because another MariaDB (360Atlas) already uses 3306.
 npm run lint
 npm run build
 npm run test:e2e    # with the site running: routing + full login flow
+                    # set GCW_TEST_SAMPLE_CONTENT=1 after db:seed-sample to test the public pages
 ```
 
 ## Test on GitHub

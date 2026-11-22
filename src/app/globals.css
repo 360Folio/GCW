@@ -1,31 +1,254 @@
 @import "tailwindcss";
 
-/* Placeholder theme. Replaced by the chosen design concept. */
+/*
+ * Broadsheet design system: newsprint paper, black ink, one red accent.
+ * English: Newsreader (serif) for reading, Inter (sans) for labels.
+ * Urdu: Noto Nastaliq Urdu for everything.
+ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --paper: #f6f1e7;
+  --paper-2: #ece4d3;
+  --paper-3: #e2d8c3;
+  --ink: #1b1a17;
+  --ink-2: #3b372f;
+  --muted: #5e584d; /* 6.1:1 on --paper */
+  --rule: #cfc5b0;
+  --red: #a8261b; /* 6.6:1 on --paper */
+  --green: #2f6b2f;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-paper: var(--paper);
+  --color-paper-2: var(--paper-2);
+  --color-paper-3: var(--paper-3);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-muted: var(--muted);
+  --color-rule: var(--rule);
+  --color-red: var(--red);
+  --color-green: var(--green);
+  --font-serif: var(--font-newsreader), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-inter), system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --font-urdu: var(--font-nastaliq), "Noto Nastaliq Urdu", "Jameel Noori Nastaleeq", serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  background: var(--paper);
+  color: var(--ink);
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-serif);
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  overflow-x: clip;
 }
 
-/* Urdu pages: Nastaliq needs more line height than Latin text. */
+::selection {
+  background: var(--paper-3);
+}
+
+:focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: 2px;
+}
+
+/* Small uppercase label above headlines: "SUDAN", "ANALYSIS". */
+.kicker {
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--red);
+}
+
+/* Section heading with a heavy rule under it: "LATEST", "KEY". */
+.section-label {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
+  border-bottom: 2px solid var(--ink);
+}
+
+.meta {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.rule-double {
+  border-bottom: 3px double var(--ink);
+}
+
+.headline-link {
+  text-decoration: none;
+}
+.headline-link:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+/* Story body text (rendered from Markdown). */
+.story-body {
+  font-size: 1.1875rem;
+  line-height: 1.7;
+  max-width: 68ch;
+}
+.story-body > * + * {
+  margin-top: 1.1em;
+}
+.story-body > p:first-of-type::first-letter {
+  float: inline-start;
+  font-size: 4.2em;
+  line-height: 0.85;
+  font-weight: 700;
+  padding-inline-end: 0.12em;
+  padding-top: 0.08em;
+}
+.story-body h2 {
+  font-size: 1.6rem;
+  line-height: 1.2;
+  font-weight: 700;
+  margin-top: 1.6em;
+}
+.story-body h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-top: 1.4em;
+}
+.story-body a {
+  color: var(--red);
+  text-underline-offset: 3px;
+}
+.story-body ul,
+.story-body ol {
+  padding-inline-start: 1.4em;
+}
+.story-body ul {
+  list-style: disc;
+}
+.story-body ol {
+  list-style: decimal;
+}
+.story-body blockquote {
+  border-inline-start: 3px solid var(--red);
+  padding-inline-start: 1em;
+  font-style: italic;
+  color: var(--ink-2);
+}
+.story-body hr {
+  border: 0;
+  border-top: 1px solid var(--rule);
+}
+
+/* ---------- Urdu ---------- */
+/* Nastaliq needs taller lines, and Urdu has no capitals or letter-spacing. */
 :lang(ur) {
-  font-family: var(--font-urdu), "Noto Nastaliq Urdu", "Jameel Noori Nastaleeq", serif;
+  font-family: var(--font-urdu);
+  line-height: 2.1;
+}
+:lang(ur) body {
+  font-size: 1.0625rem;
+}
+:lang(ur) .kicker,
+:lang(ur) .section-label,
+:lang(ur) .meta {
+  font-family: var(--font-urdu);
+  letter-spacing: 0;
+  text-transform: none;
+}
+:lang(ur) .kicker {
+  font-size: 0.8125rem;
+  font-weight: 400;
+}
+:lang(ur) .section-label {
+  font-size: 0.9375rem;
+  font-weight: 400;
+}
+:lang(ur) .meta {
+  font-size: 0.8125rem;
   line-height: 2;
+}
+:lang(ur) h1,
+:lang(ur) h2,
+:lang(ur) h3,
+:lang(ur) h4 {
+  line-height: 1.9;
+  font-weight: 400;
+}
+:lang(ur) .story-body {
+  font-size: 1.1875rem;
+  line-height: 2.3;
+}
+/* A Nastaliq drop cap doesn't work: letters join to the next one. */
+:lang(ur) .story-body > p:first-of-type::first-letter {
+  float: none;
+  font-size: inherit;
+  font-weight: inherit;
+  padding: 0;
+}
+/* English words inside Urdu text (place names, sources) */
+:lang(ur) :lang(en) {
+  font-family: var(--font-serif);
+  line-height: inherit;
+}
+
+/* ---------- Map (MapLibre) in newsprint style ---------- */
+.gcw-map .maplibregl-ctrl-group {
+  border-radius: 0;
+  box-shadow: none;
+  border: 1px solid var(--ink);
+  background: var(--paper);
+}
+.gcw-map .maplibregl-ctrl-group button + button {
+  border-top-color: var(--rule);
+}
+.gcw-map .maplibregl-ctrl-attrib {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  background: rgb(246 241 231 / 0.85);
+}
+.gcw-map .maplibregl-cooperative-gesture-screen {
+  font-family: var(--font-sans);
+  background: rgb(27 26 23 / 0.6);
+}
+.map-marker {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid var(--paper);
+  background: var(--ink);
+  color: var(--paper);
+  font: 700 11px/22px var(--font-sans);
+  text-align: center;
+  padding: 0;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.35);
+}
+.map-marker[data-serious="true"] {
+  background: var(--red);
+}
+.map-marker[aria-pressed="true"] {
+  outline: 3px solid var(--red);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

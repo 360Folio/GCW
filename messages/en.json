@@ -1,17 +1,136 @@
 {
   "Site": {
     "name": "Global Conflict Watch",
-    "tagline": "Acquire · Analyse · Act",
-    "description": "Conflict and geopolitics news in English and Urdu.",
+    "tagline": "Independent reporting on the world's conflicts, with every claim checked",
+    "description": "Conflict and geopolitics news in English and Urdu. Every story is checked against its sources and approved by an editor.",
     "switchLanguage": "اردو",
     "switchLanguageLabel": "Read in Urdu"
   },
-  "Holding": {
-    "comingSoon": "A new Global Conflict Watch is on the way, in English and Urdu."
+  "Nav": {
+    "label": "Sections",
+    "skip": "Skip to the content",
+    "home": "Home",
+    "conflicts": "Conflicts",
+    "map": "Map",
+    "search": "Search",
+    "about": "About"
+  },
+  "Footer": {
+    "label": "More",
+    "promise": "Every story is checked against its sources and approved by an editor before it is published.",
+    "corrections": "Corrections"
+  },
+  "Home": {
+    "heading": "Global Conflict Watch: latest reporting",
+    "latest": "Latest",
+    "more": "More stories",
+    "conflicts": "Conflicts we follow",
+    "emptyTitle": "The first stories are on their way.",
+    "emptyBody": "New reporting will appear here as soon as the editor approves it."
+  },
+  "Map": {
+    "kicker": "The map",
+    "title": "The world this week",
+    "intro": "Events reported in the past seven days. Drag to turn the globe, use Ctrl + scroll (two fingers on a phone) to zoom, or select a number to fly there.",
+    "regionLabel": "Zoomable world map of reported events",
+    "filterLabel": "Show events by type",
+    "all": "All",
+    "kinds": {
+      "clash": "Fighting",
+      "strike": "Air or drone strike",
+      "protest": "Protest",
+      "diplomacy": "Talks",
+      "humanitarian": "Humanitarian",
+      "other": "Other"
+    },
+    "key": "Key",
+    "seriousNote": "Red numbers mark the most serious events.",
+    "selectPrompt": "Select a number on the map or in the key to read the note.",
+    "readStory": "Read the story",
+    "worldView": "World view",
+    "loading": "Loading the map…",
+    "error": "The map could not load. The events are listed in the key.",
+    "empty": "No events have been reported in the past seven days.",
+    "helpWindows": "Use Ctrl + scroll to zoom the map",
+    "helpMac": "Use ⌘ + scroll to zoom the map",
+    "helpMobile": "Use two fingers to move the map",
+    "zoomIn": "Zoom in",
+    "zoomOut": "Zoom out",
+    "resetBearing": "Point north",
+    "fullscreen": "Full screen",
+    "exitFullscreen": "Leave full screen"
+  },
+  "Story": {
+    "desk": "GCW Desk",
+    "reviewed": "Reviewed by the editor",
+    "updated": "Updated {date}",
+    "minRead": "{count, plural, one {# min read} other {# min read}}",
+    "readOther": "اردو میں پڑھیں",
+    "checkedTitle": "What we checked",
+    "checkedBody": "{count, plural, one {# fact in this story was} other {# facts in this story were}} checked against the sources below before it was published.",
+    "checkedNone": "This story makes no checkable factual claims beyond its sources.",
+    "sources": "Sources",
+    "noSources": "No sources are listed for this story.",
+    "correction": "Spotted a mistake? <link>Tell us</link> and we will correct it."
+  },
+  "Conflict": {
+    "status": {
+      "active": "Active",
+      "frozen": "Frozen",
+      "resolved": "Ended"
+    },
+    "since": "Since {date}",
+    "stories": "{count, plural, =0 {No stories yet} one {# story} other {# stories}}",
+    "noStories": "No stories about this conflict yet.",
+    "none": "No conflicts are being followed yet."
+  },
+  "Topic": {
+    "kicker": "Section",
+    "noStories": "No stories in this section yet."
+  },
+  "Search": {
+    "title": "Search",
+    "label": "Search the stories",
+    "placeholder": "A place, a person or a conflict",
+    "button": "Search",
+    "intro": "Search every published story in English.",
+    "tooShort": "Type at least two letters.",
+    "results": "{count, plural, =0 {No results} one {# result} other {# results}} for “{query}”",
+    "none": "Nothing matched. Try a shorter word or a place name."
+  },
+  "About": {
+    "kicker": "About us",
+    "title": "How Global Conflict Watch works",
+    "intro": "Global Conflict Watch reports on the world's wars and crises in English and Urdu, and shows its working: every story lists its sources and what was checked.",
+    "mission": {
+      "title": "What we do",
+      "body": "We follow active conflicts and the diplomacy around them, and explain what changed, why it matters and what to watch next, without sensational language."
+    },
+    "method": {
+      "title": "How a story is made",
+      "body": "AI tools help us gather reports and draft stories. Nothing is published by a machine: an editor reads, corrects and approves every story and every translation before it goes live."
+    },
+    "checks": {
+      "title": "How we check facts",
+      "body": "Names, titles, dates, figures and places are pulled out of each draft and checked against the sources. A story cannot be published while any fact is unresolved. Facts we cannot trace are removed."
+    },
+    "languages": {
+      "title": "English and Urdu",
+      "body": "Stories are published in English and Urdu. The Urdu version is translated and then approved by the editor, just like the English one. If a translation is not ready, the story appears in English only."
+    },
+    "corrections": {
+      "title": "Corrections",
+      "body": "When we get something wrong we fix it and say so at the foot of the story. A form for reporting mistakes will be added here before launch."
+    },
+    "independence": {
+      "title": "Independence",
+      "body": "We are funded by advertising and by readers' support. Advertisers have no say in what we report."
+    }
   },
   "NotFound": {
     "title": "Page not found",
-    "body": "We couldn't find that page.",
-    "home": "Go to the home page"
+    "body": "We couldn't find that page. It may have moved, or the address may be wrong.",
+    "home": "Go to the front page",
+    "search": "Search the stories"
   }
 }

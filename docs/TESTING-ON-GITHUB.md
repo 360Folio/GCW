@@ -35,12 +35,16 @@ runs inside the Codespace and is set up automatically each time it starts.
 4. The first time, create your editor account in a second terminal:
    `npm run admin:create -- --email you@example.com --name "Your Name"`
    (you'll be asked for a password, 12+ characters).
+   To fill the pages with **sample** stories, conflicts and map events,
+   also run `npm run db:seed-sample`. Everything it adds is marked
+   "Sample". `npm run db:seed-sample -- --remove` takes it out again.
 5. Open the **GCW site** link from the pop-up or the **Ports** panel
    (port 3000). Its address looks like
    `https://<name>-3000.app.github.dev`, and it's **private to your
    GitHub account** unless you change the port's visibility in the
    **Ports** panel.
-6. Check `/api/health`, then sign in at `/admin/login`. It should show `"status":"ok"`.
+6. Check `/api/health`: it should show `"status":"ok"`. Then try `/en`,
+   `/ur` and the map, and sign in at `/admin/login`.
 
 ## After the Codespace setup changes
 
@@ -78,4 +82,6 @@ the editor offers it.)
 ## Automatic checks
 
 Each push to `main` runs the **CI** workflow (*Actions* tab). A red ✗ means
-the code wouldn't build, so it must be fixed before anything is deployed.
+the code wouldn't build or a test failed, so it must be fixed before
+anything is deployed. The tests load the sample content into a throwaway
+database and check the public pages in both languages and the admin login.

@@ -1,6 +1,8 @@
-// End-to-end check of routing and the admin login flow against a running
-// server (npm run preview). Uses the account in GCW_TEST_ADMIN_EMAIL /
-// GCW_TEST_ADMIN_PASSWORD. Usage: node scripts/e2e-auth-check.mjs
+// End-to-end check of routing, the public pages and the admin login flow
+// against a running server (npm run preview). Uses the account in
+// GCW_TEST_ADMIN_EMAIL / GCW_TEST_ADMIN_PASSWORD. The public page checks run
+// when GCW_TEST_SAMPLE_CONTENT=1 (load it with npm run db:seed-sample).
+// Usage: node scripts/e2e-auth-check.mjs
 import { createHmac } from "node:crypto";
 
 const BASE = process.env.SITE_URL ?? "http://localhost:3000";
@@ -59,6 +61,39 @@ r = await fetch(BASE + "/en/no-such-page");
 check("unknown page under /en is 404", r.status === 404, String(r.status));
 r = await fetch(BASE + "/wp-login.php", { redirect: "manual" });
 check("old WordPress link redirects", r.status === 308, String(r.status));
+
+// --- Public pages (needs `npm run db:seed-sample` first) -------------------
+if (process.env.GCW_TEST_SAMPLE_CONTENT === "1") {
+  const page = async (path) => {
+    const res = await fetch(BASE + path);
+    return { status: res.status, html: await res.text() };
+  };
+  let p = await page("/en");
+  check("front page shows the latest story", p.html.includes("Aid convoys reach a besieged city"));
+  check("front page map gets this week's events only", p.html.includes("fighting reported on two fronts") && !p.html.includes("old event (should be hidden)"));
+  p = await page("/en/stories/sample-sudan-aid-convoys");
+  check("story page shows sources and checks", p.status === 200 && p.html.includes("What we checked") && p.html.includes("example.org/sample-un-report"));
+  p = await page("/ur/stories/sample-sudan-aid-convoys");
+  check("Urdu story page is right-to-left", /dir="rtl"/.test(p.html) && p.html.includes("ہم نے کیا جانچا"));
+  p = await page("/ur");
+  check("story without approved Urdu is not on the Urdu front page", !p.html.includes("محاذ کی لکیریں"));
+  p = await page("/ur/stories/sample-front-lines-analysis");
+  check("story without approved Urdu shows not found in Urdu", p.html.includes("صفحہ نہیں ملا") && p.html.includes("noindex"));
+  p = await page("/en/stories/no-such-story");
+  check("unknown story shows not found, not indexed", p.html.includes("Page not found") && p.html.includes("noindex"));
+  p = await page("/en/conflicts/sample-russia-ukraine");
+  check("conflict page lists its stories", p.html.includes("2 stories"));
+  p = await page("/en/topics/sample-analysis");
+  check("section page lists its stories", p.html.includes("Sahel security pact"));
+  p = await page("/en/search?q=Congo");
+  check("search finds a story", p.html.includes("1 result") && p.html.includes("eastern Congo"));
+  p = await page("/en/search?q=" + encodeURIComponent("%_"));
+  check("search treats % and _ as plain text", p.html.includes("No results"));
+  p = await page("/en/about");
+  check("about page", p.status === 200 && p.html.includes("How a story is made"));
+} else {
+  console.log("SKIP  public content checks (set GCW_TEST_SAMPLE_CONTENT=1 after npm run db:seed-sample)");
+}
 
 // --- Admin is locked ------------------------------------------------------
 html = await (await req("/admin")).text();
