@@ -1,9 +1,13 @@
 {
   "name": "Global Conflict Watch",
-  "dockerComposeFile": "docker-compose.yml",
-  "service": "app",
-  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
-  "shutdownAction": "stopCompose",
+  // Single standard container. The two-container setup (app + MariaDB)
+  // gave HTTP 502 on the forwarded port. The database is added back in
+  // Phase 1 inside this same container.
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:1-22-bookworm",
+
+  "containerEnv": {
+    "NEXT_TELEMETRY_DISABLED": "1"
+  },
 
   "forwardPorts": [3000],
   "portsAttributes": {

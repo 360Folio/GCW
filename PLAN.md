@@ -62,7 +62,7 @@ Each phase ends with something working that you can see.
 - Move DNS to Cloudflare and switch on HTTPS.
 - Create a git repository, environment settings and a deploy script.
 - Back up and harden the old WordPress site, which stays up until launch. Redirects from its old links to the new home page are already built into the new app.
-- Testing happens on GitHub first: a private repository, GitHub Codespaces for the full site with its database, and GitHub Actions checks on every push ([docs/TESTING-ON-GITHUB.md](docs/TESTING-ON-GITHUB.md)).
+- Testing happens on GitHub first: a private repository, GitHub Codespaces to run the site (the test database is added in Phase 1), and GitHub Actions checks on every push ([docs/TESTING-ON-GITHUB.md](docs/TESTING-ON-GITHUB.md)).
 - After GitHub testing, do a test deploy to a Hostinger subdomain (`new.globalconflictwatch.com`).
 - Account steps are listed in [docs/SETUP-HOSTING.md](docs/SETUP-HOSTING.md).
 

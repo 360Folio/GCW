@@ -21,7 +21,7 @@ npm run build
 
 ## Test on GitHub
 
-The full site runs in GitHub Codespaces (app + MariaDB). Every push runs the
+The site runs in GitHub Codespaces (the database is added in Phase 1). Every push runs the
 CI checks. See [docs/TESTING-ON-GITHUB.md](docs/TESTING-ON-GITHUB.md).
 
 ## Deploy (Hostinger, after GitHub testing)

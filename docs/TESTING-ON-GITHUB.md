@@ -1,15 +1,15 @@
 # Testing the site on GitHub
 
-The full site, including its database, runs in **GitHub Codespaces**: a
-private cloud computer started from your repository and opened in the
-browser. Every push is also checked automatically by **GitHub Actions**
-(lint, type check, build). Moving to Hostinger comes later and uses the same
-setup (Node.js + MariaDB/MySQL).
+The site runs in **GitHub Codespaces**: a private cloud computer started
+from your repository and opened in the browser. Every push is also checked
+automatically by **GitHub Actions** (lint, type check, build). Moving to
+Hostinger comes later and uses the same Node.js setup. The database is
+added to the Codespace in Phase 1.
 
 ## One-time setup
 
 1. **Create the repository:** go to https://github.com/new
-   - Name: `global-conflict-watch`
+   - Name: `GCW` (already created: https://github.com/360Folio/GCW)
    - Visibility: **Private**
    - Don't add a README, .gitignore or licence (the project has them).
 2. Send me the repository URL. I'll connect this folder and push. The first
@@ -24,7 +24,7 @@ setup (Node.js + MariaDB/MySQL).
 
 1. On the repository page, click **Code > Codespaces > Create codespace on
    main**. The first start takes a few minutes, because it installs
-   packages and starts the database.
+   packages.
 2. In the Codespace terminal, run one of these:
    - `npm run dev` to try changes as you make them
    - `npm run preview` to test the real production build
@@ -42,12 +42,14 @@ setup (Node.js + MariaDB/MySQL).
 ## After the Codespace setup changes
 
 When files in `.devcontainer/` change, an existing Codespace keeps the old
-setup until it's rebuilt:
+setup. The simplest way to pick up the new one:
 
-1. In the Codespace terminal, run `git pull`.
-2. Press **Ctrl+Shift+P**, then choose **Codespaces: Rebuild Container**.
-   This takes a few minutes. Your code is kept, but the test database
-   starts empty.
+1. At https://github.com/codespaces, delete the old Codespace
+   (**⋯ > Delete**). Your code is safe on GitHub.
+2. Create a new one: **Code > Codespaces > Create codespace on main**.
+
+(**Codespaces: Rebuild Container** from **Ctrl+Shift+P** also works, when
+the editor offers it.)
 
 ## If the site gives HTTP 502
 
@@ -57,6 +59,9 @@ setup until it's rebuilt:
   If that prints `"status":"ok"` but the browser still shows 502, the
   forwarding is the problem. In the **Ports** tab, right-click port 3000 >
   **Stop Forwarding Port**, then **Add Port** > `3000`.
+- Only open the address from the **Ports** tab. The `localhost` and
+  `Network` links printed in the terminal point inside the Codespace and
+  don't work from your PC.
 
 ## Costs and limits
 
@@ -65,8 +70,7 @@ setup until it's rebuilt:
   *GitHub > Settings > Billing*.
 - **Stop the Codespace when you're done** (*Code > Codespaces > ⋯ > Stop*).
   An idle Codespace stops by itself after 30 minutes.
-- Unused Codespaces are deleted after 30 days, along with their test
-  database. The code in the repository is never affected.
+- Unused Codespaces are deleted after 30 days. The code in the repository is never affected.
 
 ## Automatic checks
 
