@@ -29,11 +29,15 @@ setup (Node.js + MariaDB/MySQL).
    - `npm run dev` to try changes as you make them
    - `npm run preview` to test the real production build
      (the same as Hostinger will run)
-3. A **GCW site** tab opens on port 3000. Its address looks like
+3. Wait until the terminal shows **`✓ Ready`**. `npm run preview` builds
+   first, which takes about a minute. Opening the site before that gives
+   an **HTTP ERROR 502**; just reload once it's ready.
+4. Open the **GCW site** link from the pop-up or the **Ports** panel
+   (port 3000). Its address looks like
    `https://<name>-3000.app.github.dev`, and it's **private to your
    GitHub account** unless you change the port's visibility in the
    **Ports** panel.
-4. Check `/api/health`. It should show `"status":"ok"`.
+5. Check `/api/health`. It should show `"status":"ok"`.
 
 ## Costs and limits
 
