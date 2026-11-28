@@ -73,8 +73,8 @@ Each phase ends with something working that you can see.
 - Public pages in English and Urdu: home (with the map), story, conflict, section (category), about, search.
 
 **Phase 2: Newsroom pipeline**
-- Source intake and grouping, AI drafts, the fact-check engine and the review inbox.
-- Translation workflow and an audit log of who approved what and when.
+- **Done: the editor.** Review inbox, story editor (English and Urdu text, sources, fact-check claims), publishing rules (English approved, every claim checked, at least one source; a flagged claim takes a live story off the site), scheduling, conflicts, sections, map events with a click-to-place map, and the activity log of who did what and when.
+- **Next: automation.** Source intake and grouping, AI drafts and AI fact-check flags, feeding the same inbox. Needs the AI provider and the source list (see Open decisions).
 
 **Phase 3: Interactive**
 - Conflict hub pages, with an explainer, a timeline and key figures.

@@ -116,7 +116,7 @@ check("wrong code is rejected", !r.ok, String(r.status));
 r = await post("/api/auth/two-factor/verify-totp", { code: totp(secret) });
 check("correct code turns two-factor on", r.ok, String(r.status));
 html = await (await req("/admin")).text();
-check("dashboard opens once two-factor is on", html.includes("Welcome,") && html.includes("auth.sign_in"));
+check("dashboard opens once two-factor is on", html.includes("Welcome,") && html.includes("Signed in"));
 
 // --- Second login needs the code ------------------------------------------
 await post("/api/auth/sign-out", {});
@@ -132,6 +132,29 @@ check("code completes sign-in", r.ok, String(r.status));
 html = await (await req("/admin")).text();
 check("dashboard opens after the code", html.includes("Welcome,"));
 
+// --- Newsroom screens (signed in) ------------------------------------------
+html = await (await req("/admin")).text();
+check("inbox shows the review queue", html.includes("Review inbox") && html.includes("Waiting for review"));
+html = await (await req("/admin/stories/new")).text();
+check("new story form opens", html.includes("Create draft"));
+for (const [path, text] of [["/admin/conflicts", "Conflicts"], ["/admin/topics", "Add a section"], ["/admin/map", "Map events"], ["/admin/activity", "Signed in"]]) {
+  html = await (await req(path)).text();
+  check(`${path} opens`, html.includes(text));
+}
+if (process.env.GCW_TEST_SAMPLE_CONTENT === "1") {
+  html = await (await req("/admin/stories?q=" + encodeURIComponent("Aid convoys"))).text();
+  const id = html.match(/href="\/admin\/stories\/([0-9a-f-]{36})"/)?.[1];
+  check("story list finds a story", Boolean(id) && html.includes("Aid convoys reach a besieged city"));
+  html = await (await req(`/admin/stories/${id}`)).text();
+  check("story editor shows publishing checks, claims and sources", html.includes("English text approved") && html.includes("Fact-check: claims") && html.includes("example.org/sample-un-report"));
+  html = await (await req(`/admin/stories/${id}/text/ur`)).text();
+  check("Urdu text editor is right-to-left", html.includes("Save and approve") && /dir="rtl"/.test(html));
+  html = await (await req(`/admin/stories/${id}/preview/en`)).text();
+  check("preview shows the story", html.includes("Aid convoys reach a besieged city") && html.includes("story-body"));
+  html = await (await req("/admin/stories?status=urdu")).text();
+  check("Urdu-to-approve list shows the English-only story", html.includes("Why the front lines keep moving"));
+}
+
 // --- Brute-force protection -----------------------------------------------
 jar.clear();
 let limited = false;
@@ -140,6 +163,8 @@ for (let i = 0; i < 7; i++) {
   if (r.status === 429) limited = true;
 }
 check("repeated wrong passwords are rate-limited", limited);
+html = await (await req("/admin/stories")).text();
+check("newsroom pages need a login", html.includes("/admin/login") && !html.includes("Fact-check"));
 
 console.log(failures ? `\n${failures} check(s) failed` : "\nAll checks passed");
 process.exit(failures ? 1 : 0);

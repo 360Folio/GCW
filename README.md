@@ -26,7 +26,10 @@ because another MariaDB (360Atlas) already uses 3306.
 - `src/lib/public-data.ts` - every database read for the public site
 - `src/components/world-map.tsx` - the globe (MapLibre + OpenFreeMap, no key needed)
 - `src/app/globals.css` - the Broadsheet design tokens and type
-- `src/app/admin/` - newsroom: login, two-factor setup, dashboard
+- `src/app/admin/` - newsroom: login, two-factor setup, review inbox, story editor
+  (text in both languages, sources, fact-check claims, publish), conflicts, sections,
+  map events and the activity log. Actions are in `src/app/admin/actions/`.
+- `src/lib/admin-data.ts` - newsroom reads; `src/lib/editorial.ts` - publish rules
 - `src/db/schema.ts` - database tables; `npm run db:generate` after changes
 - `src/lib/auth.ts` - login (Better Auth): single editor, two-factor required
 - `messages/` - interface text in English and Urdu
@@ -35,8 +38,9 @@ because another MariaDB (360Atlas) already uses 3306.
 
 ```powershell
 npm run lint
+npm run test:unit   # publish rules, slugs, dates
 npm run build
-npm run test:e2e    # with the site running: routing + full login flow
+npm run test:e2e    # with the site running: routing, login flow, newsroom pages
                     # set GCW_TEST_SAMPLE_CONTENT=1 after db:seed-sample to test the public pages
 ```
 

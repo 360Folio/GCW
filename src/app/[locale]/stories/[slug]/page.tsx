@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { connection } from "next/server";
 import { Suspense } from "react";
-import Markdown, { type Components } from "react-markdown";
 import { getFormatter, getLocale, getTranslations } from "next-intl/server";
 import { Kicker, LinesSkeleton } from "@/components/story-list";
+import { StoryMarkdown } from "@/components/story-markdown";
 import type { Locale } from "@/db/schema";
 import { Link } from "@/i18n/navigation";
 import { formatDate, readingMinutes } from "@/lib/format";
@@ -38,20 +38,6 @@ export default function StoryRoute({ params }: Props) {
     </main>
   );
 }
-
-// Story text comes from the database as Markdown. Raw HTML is dropped and
-// links to other sites open without passing on who sent the reader.
-const markdown: Components = {
-  h1: ({ children }) => <h2>{children}</h2>,
-  a: ({ href, children }) => {
-    const external = /^https?:\/\//i.test(href ?? "");
-    return (
-      <a href={href} {...(external ? { rel: "nofollow noopener noreferrer", target: "_blank" } : {})}>
-        {children}
-      </a>
-    );
-  },
-};
 
 async function Article({ params }: Pick<Props, "params">) {
   const { slug } = await params;
@@ -97,9 +83,7 @@ async function Article({ params }: Pick<Props, "params">) {
       </header>
 
       <div className="story-body mt-6">
-        <Markdown components={markdown} skipHtml>
-          {story.body}
-        </Markdown>
+        <StoryMarkdown>{story.body}</StoryMarkdown>
       </div>
 
       <aside className="mt-10 self-start border-t-[3px] border-ink pt-3 lg:sticky lg:top-6 lg:mt-6" aria-label={t("checkedTitle")}>

@@ -16,7 +16,8 @@
     "db:studio": "drizzle-kit studio",
     "admin:create": "tsx scripts/create-admin.ts",
     "test:e2e": "node scripts/e2e-auth-check.mjs",
-    "db:seed-sample": "tsx scripts/seed-sample.ts"
+    "db:seed-sample": "tsx scripts/seed-sample.ts",
+    "test:unit": "tsx --test \"src/**/*.test.ts\""
   },
   "dependencies": {
     "better-auth": "^1.7.27",
