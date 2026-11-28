@@ -33,4 +33,11 @@ AUTH_SECRET=$(openssl rand -base64 32)
 EOF
 fi
 
+# Codespaces' port forwarding passes sign-in requests to the site as coming
+# from http://localhost:3000, so the sign-in check must accept that address.
+# Added to older .env.local files too. Codespace only, never on the live site.
+if ! grep -q '^BETTER_AUTH_TRUSTED_ORIGINS=' .env.local; then
+  echo 'BETTER_AUTH_TRUSTED_ORIGINS=http://localhost:3000' >> .env.local
+fi
+
 echo "MariaDB is running; database 'gcw' is ready."
